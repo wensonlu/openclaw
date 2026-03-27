@@ -1,0 +1,53 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: bms-ai-validator
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bms_validator
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# LLM 配置
+llm:
+  provider: hunyuan  # openai 或 hunyuan
+  openai:
+    api-key: ${OPENAI_API_KEY:}
+    endpoint: https://api.openai.com/v1
+  hunyuan:
+    secret-id: ${TENCENT_SECRET_ID:}
+    secret-key: ${TENCENT_SECRET_KEY:}
+    endpoint: https://hunyuan.cloud.tencent.com
+
+# Temporal 配置
+temporal:
+  host: localhost
+  port: 7233
+
+# 执行器配置
+executor:
+  build:
+    timeout: 300000
+    retry-count: 3
+  static:
+    similarity-threshold: 0.9
+  dynamic:
+    browser: chromium
+    headless: true
+    timeout: 60000
+
+# 文件存储
+storage:
+  artifacts:
+    path: /tmp/bms-validator/artifacts
+  screenshots:
+    path: /tmp/bms-validator/screenshots
